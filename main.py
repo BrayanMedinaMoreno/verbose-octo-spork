@@ -56,12 +56,12 @@ clock = pygame.time.Clock()
 # Fuente
 font = pygame.font.SysFont("monospace", 26)
 
-# Función para dibujar enemigos
+
 def draw_enemies(enemy_list):
     for enemy_pos in enemy_list:
         screen.blit(enemy_image, (enemy_pos[0], enemy_pos[1]))
 
-# Función para actualizar la posición de los enemigos
+
 def update_enemy_positions(enemy_list, speed):
     for idx, enemy_pos in enumerate(enemy_list):
         if enemy_pos[1] >= 0 and enemy_pos[1] < screen_height:
@@ -73,14 +73,14 @@ def update_enemy_positions(enemy_list, speed):
                 new_enemy_pos = [random.randint(0, screen_width - enemy_size), 0]
             enemy_list.append(new_enemy_pos)
 
-# Función para detectar colisiones
+
 def collision_check(enemy_list, player_pos):
     for enemy_pos in enemy_list:
         if detect_collision(enemy_pos, player_pos):
             return True
     return False
 
-# Función para detectar colisión entre jugador y enemigo
+
 def detect_collision(player_pos, enemy_pos):
     p_x = player_pos[0]
     p_y = player_pos[1]
@@ -88,21 +88,21 @@ def detect_collision(player_pos, enemy_pos):
     e_x = enemy_pos[0]
     e_y = enemy_pos[1]
 
-    # Ajustar las hitboxes para que sean más pequeñas
+
     hitbox_offset = 10
     if (e_x + hitbox_offset >= p_x and e_x + hitbox_offset < (p_x + player_size - hitbox_offset)) or (p_x + hitbox_offset >= e_x and p_x + hitbox_offset < (e_x + enemy_size - hitbox_offset)):
         if (e_y + hitbox_offset >= p_y and e_y + hitbox_offset < (p_y + player_size - hitbox_offset)) or (p_y + hitbox_offset >= e_y and p_y + hitbox_offset < (e_y + enemy_size - hitbox_offset)):
             return True
     return False
 
-# Función para verificar si hay superposición de enemigos
+
 def check_overlap(new_enemy_pos, enemy_list):
     for enemy_pos in enemy_list:
         if detect_collision(new_enemy_pos, enemy_pos):
             return True
     return False
 
-# Función para mostrar el menú principal
+
 def show_menu():
     menu = True
     while menu:
@@ -123,7 +123,7 @@ def show_menu():
         pygame.display.update()
         clock.tick(15)
 
-# Función para mostrar el menú de fin de juego
+
 def show_game_over_menu():
     game_over_menu = True
     while game_over_menu:
@@ -147,7 +147,7 @@ def show_game_over_menu():
         pygame.display.update()
         clock.tick(15)
 
-# Función para agregar enemigos
+
 def add_enemies(enemy_list, num_enemies):
     for _ in range(num_enemies):
         new_enemy_pos = [random.randint(0, screen_width - enemy_size), random.randint(-screen_height, 0)]
@@ -155,7 +155,7 @@ def add_enemies(enemy_list, num_enemies):
             new_enemy_pos = [random.randint(0, screen_width - enemy_size), random.randint(-screen_height, 0)]
         enemy_list.append(new_enemy_pos)
 
-# Función principal del juego
+
 def main_game():
     game_over = False
     enemy_list.clear()
@@ -180,7 +180,7 @@ def main_game():
         if keys[pygame.K_RIGHT] and player_pos[0] < screen_width - player_size:
             player_pos[0] += speed
 
-        # Dibujar la imagen de fondo
+    
         screen.blit(background_image, (0, 0))
 
         update_enemy_positions(enemy_list, enemy_speed)
@@ -191,12 +191,11 @@ def main_game():
         if collision_check(enemy_list, player_pos):
             game_over = True
 
-        # Aumentar la cantidad y velocidad de enemigos progresivamente
         if len(enemy_list) < max_enemies:
             add_enemies(enemy_list, 1)
             enemy_count += 1
 
-        # Aumentar la velocidad de los enemigos y del jugador con el tiempo
+
         time_counter += 1
         if time_counter % 500 == 0:
             enemy_speed += 1
@@ -208,7 +207,7 @@ def main_game():
 
     show_game_over_menu()
 
-# Mostrar el menú principal y comenzar el juego
+
 show_menu()
 main_game()
 pygame.quit()
